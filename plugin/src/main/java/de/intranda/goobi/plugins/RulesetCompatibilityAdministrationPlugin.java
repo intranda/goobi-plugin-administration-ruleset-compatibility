@@ -1,35 +1,24 @@
 package de.intranda.goobi.plugins;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.goobi.beans.Process;
-import org.goobi.goobiScript.GoobiScriptManager;
 import org.goobi.managedbeans.ProcessBean;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.goobi.production.plugin.interfaces.IAdministrationPlugin;
 import org.goobi.production.plugin.interfaces.IPushPlugin;
-import org.goobi.production.search.api.ExtendedSearchRow;
 import org.omnifaces.cdi.PushContext;
 
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.helper.Helper;
-import de.sub.goobi.helper.exceptions.DAOException;
-import de.sub.goobi.helper.exceptions.SwapException;
 import de.sub.goobi.persistence.managers.ProcessManager;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import ugh.dl.Fileformat;
-import ugh.dl.Prefs;
-import ugh.exceptions.PreferencesException;
-import ugh.exceptions.ReadException;
-import ugh.exceptions.WriteException;
 
 @PluginImplementation
 @Log4j2
@@ -80,10 +69,9 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 					
 					RulesetCompatibilityResult r = new RulesetCompatibilityResult();
 					r.setProcess(process);
-					Prefs prefs = process.getRegelsatz().getPreferences();
-					Fileformat ff = null;
 					try {
-						ff = process.readMetadataFile();
+						// Prefs prefs = process.getRegelsatz().getPreferences();
+						Fileformat ff = process.readMetadataFile();
 					} catch (Exception e) {
 						r.setStatus("ERROR");
 						r.setMessage(e.getMessage());

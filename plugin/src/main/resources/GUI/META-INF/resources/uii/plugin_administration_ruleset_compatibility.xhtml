@@ -105,12 +105,11 @@
 						<div class="box-content nopadding">
 							<h:form id="resultForm">
 								<div class="dataTables_wrapper">
-								
+
 									<!-- summary above the result table -->
 									<div class="dataTables_length"
 										style="width: 100%;margin-top:20px;">
 										<div class="row">
-											<!-- number of hits -->
 											<div class="col-sm-2">
 											
 												<!-- Open process list -->
@@ -156,6 +155,7 @@
 												</div>
 												<!-- // Open process list -->
 																						
+												<!-- number of hits -->
 												<h:outputText
 													styleClass="resultNumber margin-right-5" 
 													value="#{msgs.treffer}: #{AdministrationForm.administrationPlugin.resultProcessed} / #{AdministrationForm.administrationPlugin.resultTotal}" />
@@ -164,8 +164,8 @@
 													rendered="#{AdministrationForm.administrationPlugin.resultProcessed gt SessionForm.gsm.showMax}">
 												   <f:param value="#{SessionForm.gsm.showMax}" />
 												</h:outputFormat>
+												<!-- // number of hits -->
 											</div>
-											<!-- // number of hits -->
 	
 											<!-- progress bar -->
 											<div class="col-sm-8 progress">
@@ -190,7 +190,7 @@
 														<i class="fa fa-table margin-right-5" /> <span
 															class="caret"></span>
 													</button>
-	
+
 													<ul class="dropdown-menu">
 														<li>
 															<button class="dropdown-item"
@@ -245,7 +245,7 @@
 													</ul>
 												</div>
 											</div>
-											<!-- limit number of displayed hits -->
+											<!-- // limit number of displayed hits -->
 											
 										</div>
 									</div>
@@ -270,14 +270,14 @@
 											</f:facet>
 											<h:outputText value="#{msgs['goobiScript_status_'.concat(item.status)]}" title="#{item.message}" styleClass="badge font-size-xs #{item.status == 'OK' ? 'badge-intranda-green' : item.status == 'ERROR'?'badge-intranda-red':'badge-intranda-orange'}" />
 										</h:column>
-	
+
 										<h:column>
 											<f:facet name="header">
 												<h:outputText value="#{msgs.details}" />
 											</f:facet>
 											<h:outputText value="#{item.message}" />
 										</h:column>
-																				
+										
 										<h:column>
 											<f:facet name="header">
 												<h:outputText value="#{msgs.auswahl}" />
@@ -330,10 +330,10 @@
 	                                                target="#{NavigationForm.uiStatus.mets_toc5}" />
 	                                        </h:commandLink>
 										</h:column>
-	
+
 									</x:dataTable>
 									<!-- // result table -->
-									
+
 								</div>
 							</h:form>
 						</div>
