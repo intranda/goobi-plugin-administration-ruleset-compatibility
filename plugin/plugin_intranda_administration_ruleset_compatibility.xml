@@ -1,0 +1,6 @@
+<config_plugin>
+	
+	<!-- default filter to use -->
+	<filter>stepdone:export</filter>
+	
+</config_plugin>

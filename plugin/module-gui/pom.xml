@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.intranda.goobi.plugins.administration</groupId>
-  <artifactId>sample-gui</artifactId>
+  <artifactId>ruleset_compatibility-gui</artifactId>
   <version>1.0.0</version>
   <properties>
-    <jar.name>plugin_intranda_administration_sample-GUI</jar.name>
+    <jar.name>plugin_intranda_administration_ruleset_compatibility-GUI</jar.name>
     <dest.folder>/opt/digiverso/goobi/plugins/GUI/</dest.folder>
   </properties>
   <parent>
     <groupId>de.intranda.goobi.plugins.administration</groupId>
-    <artifactId>sample</artifactId>
+    <artifactId>ruleset_compatibility</artifactId>
     <version>1.0.0</version>
   </parent>
   <build>
@@ -66,7 +66,7 @@
     </plugins>
   </build>
   <scm>
-    <url>scm:git:ssh://git@gitea.intranda.com:goobi-workflow/goobi-plugin-administration-sample.git</url>
-    <connection>scm:git:ssh://git@gitea.intranda.com:goobi-workflow/goobi-plugin-administration-sample.git</connection>
+    <url>scm:git:ssh://git@gitea.intranda.com:goobi-workflow/goobi-plugin-administration-ruleset_compatibility.git</url>
+    <connection>scm:git:ssh://git@gitea.intranda.com:goobi-workflow/goobi-plugin-administration-ruleset_compatibility.git</connection>
   </scm>
 </project>
