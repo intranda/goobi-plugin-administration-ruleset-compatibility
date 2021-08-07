@@ -156,10 +156,10 @@
 												<!-- // Open process list -->
 																						
 												<!-- number of hits -->
-												<h:outputText
+												<h:outputText id="resultNumber1"
 													styleClass="resultNumber margin-right-5" 
 													value="#{msgs.treffer}: #{AdministrationForm.administrationPlugin.resultProcessed} / #{AdministrationForm.administrationPlugin.resultTotal}" />
-												<h:outputFormat value="(#{msgs['maxHitsShown']})"
+												<h:outputFormat value="(#{msgs['maxHitsShown']})" id="resultNumber2"
 													styleClass="resultNumberMax font-light block"
 													rendered="#{AdministrationForm.administrationPlugin.resultProcessed gt SessionForm.gsm.showMax}">
 												   <f:param value="#{SessionForm.gsm.showMax}" />
@@ -168,7 +168,7 @@
 											</div>
 	
 											<!-- progress bar -->
-											<div class="col-sm-8 progress">
+											<h:panelGroup class="col-sm-8 progress" id="resultProgress">
 												<div class="progress-bar #{AdministrationForm.administrationPlugin.progress lt 100 ? 'progress-bar-striped active' : ''}" role="progressbar"
 													aria-valuenow="#{AdministrationForm.administrationPlugin.progress}"
 													aria-valuemin="0" aria-valuemax="100"
@@ -176,7 +176,7 @@
 													<h:outputText
 														value="#{AdministrationForm.administrationPlugin.progress}%" />
 												</div>
-											</div>
+											</h:panelGroup>
 											<!-- // progress bar -->
 											
 											<!-- limit number of displayed hits -->
@@ -252,7 +252,7 @@
 									<!-- // summary above the result table -->
 	
 									<!-- result table -->
-									<x:dataTable id="results"
+									<x:dataTable id="resultTable"
 										styleClass="table table-hover table-nomargin dataTable table-bordered responsive"
 										var="item"
 										value="#{AdministrationForm.administrationPlugin.resultListLimited(SessionForm.gsm.showMax)}">
@@ -346,7 +346,10 @@
 
 		<!-- websocket communication -->
 		<o:socket channel="adminPluginPush" scope="session">
-			<f:ajax event="update" render="resultArea" />
+			<f:ajax event="update" render="resultForm:resultNumber1" />
+			<f:ajax event="update" render="resultForm:resultNumber2" />
+			<f:ajax event="update" render="resultForm:resultProgress" />
+			<f:ajax event="update" render="resultForm:resultTable" />
 		</o:socket>
 		<!-- // websocket communication -->
 

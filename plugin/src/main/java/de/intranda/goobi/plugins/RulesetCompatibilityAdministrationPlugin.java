@@ -65,7 +65,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 			try {
 				long lastPush = System.currentTimeMillis();
 				for (Process process : tempProcesses) {
-					Thread.sleep(800);
+					//Thread.sleep(800);
 					
 					RulesetCompatibilityResult r = new RulesetCompatibilityResult();
 					r.setProcess(process);
@@ -78,7 +78,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 					}
 					results.add(r);
 					resultProcessed++;
-					if (pusher != null && System.currentTimeMillis() - lastPush > 500) {
+					if (pusher != null && System.currentTimeMillis() - lastPush > 1000) {
 						lastPush = System.currentTimeMillis();
 						pusher.send("update");
 					}
