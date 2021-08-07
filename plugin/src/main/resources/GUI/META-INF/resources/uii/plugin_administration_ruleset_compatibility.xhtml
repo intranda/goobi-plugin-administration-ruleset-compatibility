@@ -61,7 +61,7 @@
 						<h:panelGroup id="actionform" styleClass="col-sm-12"
 							rendered="#{LoginForm.hasRole('Plugin_administration_ruleset_compatibility')}">
 							<div class="row">
-								<h:form styleClass="form-horizontal form-bordered">
+								<h:form id="filterForm" styleClass="form-horizontal form-bordered">
 
 									<!-- Filter -->
 									<intranda:formInputText id="filter" name="filtername"
@@ -70,15 +70,19 @@
 										help="#{msgs.helpFilter}" fieldStyle="form-control"
 										required="false" />
 
-									<!-- Generate the statistics or cancel again -->
+									<!-- Execute the plugin -->
 									<div class="form-actions">
-										<h:commandButton
-											styleClass="btn btn-primary submitOnEnter pull-right font-size-s margin-bottom-most"
-											id="myStatisticButton" type="submit"
-											title="#{msgs.resetPagination}"
-											action="#{AdministrationForm.administrationPlugin.execute}"
-											value="#{msgs.executePlugin}">
-										</h:commandButton>
+										<button jsf:id="cancel" class="btn margin-sides-10 font-size-s" 
+											jsf:action="#{AdministrationForm.administrationPlugin.cancel}"
+											jsf:rendered="#{AdministrationForm.administrationPlugin.run}">
+											<h:outputText value="#{msgs.abbrechen}" />
+										</button>
+									
+										<button class="btn btn-primary submitOnEnter pull-right font-size-s margin-bottom-most" 
+											jsf:id="filterButton"
+											type="submit" jsf:action="#{AdministrationForm.administrationPlugin.execute}">
+											<h:outputText value="#{msgs.executePlugin}" />
+										</button>
 									</div>
 								</h:form>
 							</div>
@@ -169,7 +173,7 @@
 	
 											<!-- progress bar -->
 											<h:panelGroup class="col-sm-8 progress" id="resultProgress">
-												<div class="progress-bar #{AdministrationForm.administrationPlugin.progress lt 100 ? 'progress-bar-striped active' : ''}" role="progressbar"
+												<div class="progress-bar #{AdministrationForm.administrationPlugin.run ? 'progress-bar-striped active' : ''}" role="progressbar"
 													aria-valuenow="#{AdministrationForm.administrationPlugin.progress}"
 													aria-valuemin="0" aria-valuemax="100"
 													style="width:#{AdministrationForm.administrationPlugin.progress}%">
@@ -350,6 +354,7 @@
 			<f:ajax event="update" render="resultForm:resultNumber2" />
 			<f:ajax event="update" render="resultForm:resultProgress" />
 			<f:ajax event="update" render="resultForm:resultTable" />
+			<f:ajax event="update" render="filterForm:cancel" />
 		</o:socket>
 		<!-- // websocket communication -->
 

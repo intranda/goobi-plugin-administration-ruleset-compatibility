@@ -1,7 +1,9 @@
 package de.intranda.goobi.plugins;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import org.goobi.beans.Process;
 import org.goobi.managedbeans.ProcessBean;
@@ -33,6 +35,9 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 	@Getter
 	private int resultProcessed = 0;
 
+	@Getter 
+	private boolean run = false;
+
 	@Getter
 	@Setter
 	private String filter;
@@ -52,7 +57,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 	 * action method to run through all processes matching the filter
 	 */
 	public void execute() {
-
+		run = true;
+				
 		// filter the list of all processes that should be affected
 		String query = FilterHelper.criteriaBuilder(filter, false, null, null, null, true, false);
 		List<Process> tempProcesses = ProcessManager.getProcesses("prozesse.titel", query);
@@ -61,12 +67,14 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 		resultProcessed = 0;
 		results = new ArrayList<RulesetCompatibilityResult>();
 
-		Runnable run = () -> {
+		Runnable runnable = () -> {
 			try {
 				long lastPush = System.currentTimeMillis();
 				for (Process process : tempProcesses) {
-					//Thread.sleep(800);
-					
+					Thread.sleep(1000);
+					if (!run) {
+						break;
+					}
 					RulesetCompatibilityResult r = new RulesetCompatibilityResult();
 					r.setProcess(process);
 					try {
@@ -76,14 +84,16 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 						r.setStatus("ERROR");
 						r.setMessage(e.getMessage());
 					}
-					results.add(r);
+					results.add(0, r);
 					resultProcessed++;
+					
 					if (pusher != null && System.currentTimeMillis() - lastPush > 1000) {
 						lastPush = System.currentTimeMillis();
 						pusher.send("update");
 					}
 				}
 
+				run = false;
 				Thread.sleep(200);
 				if (pusher != null) {
 					pusher.send("update");
@@ -92,7 +102,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 				e.printStackTrace();
 			}
 		};
-		new Thread(run).start();
+		new Thread(runnable).start();
 	}
 	
 	/**
@@ -139,7 +149,10 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 		if (inMax > results.size()) {
 			return results;
 		} else {
-			return results.subList(0, inMax);
+			List<RulesetCompatibilityResult> list = Collections.synchronizedList(results);
+			synchronized(list) {
+				return list.subList(0, inMax);
+			}
 		}
 	}
 	
@@ -151,4 +164,10 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 		return 100 * resultProcessed / resultTotal;	
 	}
 
+	/**
+	 * stop further processing 
+	 */
+	public void cancel() {
+		run = false;
+	}
 }
