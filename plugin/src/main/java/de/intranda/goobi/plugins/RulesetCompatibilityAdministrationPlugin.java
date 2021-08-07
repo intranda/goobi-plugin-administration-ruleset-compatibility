@@ -71,12 +71,13 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 			try {
 				long lastPush = System.currentTimeMillis();
 				for (Process process : tempProcesses) {
-					Thread.sleep(1000);
+//					Thread.sleep(1000);
 					if (!run) {
 						break;
 					}
 					RulesetCompatibilityResult r = new RulesetCompatibilityResult();
-					r.setProcess(process);
+					r.setTitle(process.getTitel());
+					r.setId(process.getId());
 					try {
 						// Prefs prefs = process.getRegelsatz().getPreferences();
 						Fileformat ff = process.readMetadataFile();
@@ -114,7 +115,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
         String search = "\"id:";
         for (RulesetCompatibilityResult r : results) {
         	if (limit.isEmpty() || limit.equals(r.getStatus())) {
-        		search += r.getProcess().getId() + " ";
+        		search += r.getId() + " ";
         	}
         }
         search += "\"";
