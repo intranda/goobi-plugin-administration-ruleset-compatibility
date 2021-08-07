@@ -165,8 +165,8 @@
 													value="#{msgs.treffer}: #{AdministrationForm.administrationPlugin.resultProcessed} / #{AdministrationForm.administrationPlugin.resultTotal}" />
 												<h:outputFormat value="(#{msgs['maxHitsShown']})" id="resultNumber2"
 													styleClass="resultNumberMax font-light block"
-													rendered="#{AdministrationForm.administrationPlugin.resultProcessed gt SessionForm.gsm.showMax}">
-												   <f:param value="#{SessionForm.gsm.showMax}" />
+													rendered="#{AdministrationForm.administrationPlugin.resultProcessed gt AdministrationForm.administrationPlugin.limit}">
+												   <f:param value="#{AdministrationForm.administrationPlugin.limit}" />
 												</h:outputFormat>
 												<!-- // number of hits -->
 											</div>
@@ -203,7 +203,7 @@
 																<h:outputText
 																	value="#{msgs.goobiScript_setMaxEntries} 10" />
 																<x:updateActionListener
-																	property="#{SessionForm.gsm.showMax}" value="10" />
+																	property="#{AdministrationForm.administrationPlugin.limit}" value="10" />
 															</button>
 														</li>
 														<li>
@@ -213,7 +213,7 @@
 																<h:outputText
 																	value="#{msgs.goobiScript_setMaxEntries} 100" />
 																<x:updateActionListener
-																	property="#{SessionForm.gsm.showMax}" value="100" />
+																	property="#{AdministrationForm.administrationPlugin.limit}" value="100" />
 															</button>
 														</li>
 														<li>
@@ -223,7 +223,7 @@
 																<h:outputText
 																	value="#{msgs.goobiScript_setMaxEntries} 1.000" />
 																<x:updateActionListener
-																	property="#{SessionForm.gsm.showMax}" value="1000" />
+																	property="#{AdministrationForm.administrationPlugin.limit}" value="1000" />
 															</button>
 														</li>
 														<li>
@@ -233,7 +233,7 @@
 																<h:outputText
 																	value="#{msgs.goobiScript_setMaxEntries} 10.000" />
 																<x:updateActionListener
-																	property="#{SessionForm.gsm.showMax}" value="10000" />
+																	property="#{AdministrationForm.administrationPlugin.limit}" value="10000" />
 															</button>
 														</li>
 														<li>
@@ -243,7 +243,7 @@
 																<h:outputText
 																	value="#{msgs.goobiScript_setMaxEntries} 1.000.000" />
 																<x:updateActionListener
-																	property="#{SessionForm.gsm.showMax}" value="1000000" />
+																	property="#{AdministrationForm.administrationPlugin.limit}" value="1000000" />
 															</button>
 														</li>
 													</ul>
@@ -259,7 +259,7 @@
 									<x:dataTable id="resultTable"
 										styleClass="table table-hover table-nomargin dataTable table-bordered responsive"
 										var="item"
-										value="#{AdministrationForm.administrationPlugin.resultListLimited(SessionForm.gsm.showMax)}">
+										value="#{AdministrationForm.administrationPlugin.resultsLimited}">
 	
 										<h:column>
 											<f:facet name="header">

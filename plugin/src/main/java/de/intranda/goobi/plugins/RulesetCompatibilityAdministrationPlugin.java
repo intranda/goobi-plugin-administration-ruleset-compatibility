@@ -29,6 +29,9 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
     @Getter
     private String title = "intranda_administration_ruleset_compatibility";
 
+	@Getter @Setter
+	private int limit = 10;
+
 	@Getter
 	private int resultTotal = 0;
 
@@ -42,6 +45,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 	@Setter
 	private String filter;
 
+	@Getter
+	private List<RulesetCompatibilityResult> resultsLimited = new ArrayList<RulesetCompatibilityResult>();
 	private List<RulesetCompatibilityResult> results = new ArrayList<RulesetCompatibilityResult>();
 	private PushContext pusher;
 	
@@ -66,7 +71,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 		resultTotal = tempProcesses.size();
 		resultProcessed = 0;
 		results = new ArrayList<RulesetCompatibilityResult>();
-
+		resultsLimited = new ArrayList<RulesetCompatibilityResult>();
+		
 		Runnable runnable = () -> {
 			try {
 				long lastPush = System.currentTimeMillis();
@@ -86,8 +92,12 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 						r.setMessage(e.getMessage());
 					}
 					results.add(0, r);
+					if (results.size()>limit) {
+						resultsLimited = new ArrayList(results.subList(0, limit));											
+					} else {
+						resultsLimited = new ArrayList(results);		
+					}
 					resultProcessed++;
-					
 					if (pusher != null && System.currentTimeMillis() - lastPush > 1000) {
 						lastPush = System.currentTimeMillis();
 						pusher.send("update");
@@ -138,23 +148,6 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 	@Override
 	public void setPushContext(PushContext pusher) {
 		this.pusher = pusher;
-	}
-
-	/**
-	 * Get a given maximum of processes
-	 * 
-	 * @param inMax
-	 * @return
-	 */
-	public List<RulesetCompatibilityResult> resultListLimited(int inMax) {
-		if (inMax > results.size()) {
-			return results;
-		} else {
-			List<RulesetCompatibilityResult> list = Collections.synchronizedList(results);
-			synchronized(list) {
-				return list.subList(0, inMax);
-			}
-		}
 	}
 	
 	/**
