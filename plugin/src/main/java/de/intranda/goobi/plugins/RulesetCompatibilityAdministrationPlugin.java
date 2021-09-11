@@ -44,8 +44,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
     private String filter;
 
     @Getter
-    private List<RulesetCompatibilityResult> resultsLimited = new ArrayList<>();
-    private List<RulesetCompatibilityResult> results = new ArrayList<>();
+    private List<RulesetCompatibilityResult> resultsLimited = new ArrayList<RulesetCompatibilityResult>();
+    private List<RulesetCompatibilityResult> results = new ArrayList<RulesetCompatibilityResult>();
     private PushContext pusher;
 
     /**
@@ -68,8 +68,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 
         resultTotal = tempProcesses.size();
         resultProcessed = 0;
-        results = new ArrayList<>();
-        resultsLimited = new ArrayList<>();
+        results = new ArrayList<RulesetCompatibilityResult>();
+        resultsLimited = new ArrayList<RulesetCompatibilityResult>();
 
         Runnable runnable = () -> {
             try {
