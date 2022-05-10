@@ -5,7 +5,7 @@
   <version>1.0.0</version>
   <packaging>pom</packaging>
   <properties>
-    <goobi.version>22.04.2</goobi.version>
+    <goobi.version>22.04.3</goobi.version>
   </properties>
   <distributionManagement>
     <repository>
