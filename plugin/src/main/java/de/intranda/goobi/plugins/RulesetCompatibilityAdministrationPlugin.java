@@ -44,8 +44,8 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
     private String filter;
 
     @Getter
-    private List<RulesetCompatibilityResult> resultsLimited = new ArrayList<RulesetCompatibilityResult>();
-    private List<RulesetCompatibilityResult> results = new ArrayList<RulesetCompatibilityResult>();
+    private List<RulesetCompatibilityResult> resultsLimited = new ArrayList<>();
+    private List<RulesetCompatibilityResult> results = new ArrayList<>();
     private PushContext pusher;
 
     /**
@@ -64,12 +64,12 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 
         // filter the list of all processes that should be affected
         String query = FilterHelper.criteriaBuilder(filter, false, null, null, null, true, false);
-        List<Integer> tempProcesses = ProcessManager.getIDList( query);
+        List<Integer> tempProcesses = ProcessManager.getIdsForFilter( query);
 
         resultTotal = tempProcesses.size();
         resultProcessed = 0;
-        results = new ArrayList<RulesetCompatibilityResult>();
-        resultsLimited = new ArrayList<RulesetCompatibilityResult>();
+        results = new ArrayList<>();
+        resultsLimited = new ArrayList<>();
 
         Runnable runnable = () -> {
             try {
