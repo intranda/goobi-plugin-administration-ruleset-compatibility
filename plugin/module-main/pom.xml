@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.intranda.goobi.plugins.administration</groupId>
   <artifactId>ruleset_compatibility-main</artifactId>
-  <version>23.04.1</version>
+  <version>23.04.2</version>
   <properties>
     <jar.name>plugin_intranda_administration_ruleset_compatibility</jar.name>
     <dest.folder>/opt/digiverso/goobi/plugins/administration/</dest.folder>
@@ -10,7 +10,7 @@
   <parent>
     <groupId>de.intranda.goobi.plugins.administration</groupId>
     <artifactId>ruleset_compatibility</artifactId>
-    <version>23.04.1</version>
+    <version>23.04.2</version>
   </parent>
   <build>
     <finalName>${jar.name}</finalName>
