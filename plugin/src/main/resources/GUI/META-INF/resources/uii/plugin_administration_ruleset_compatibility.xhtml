@@ -1,80 +1,86 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:x="http://myfaces.apache.org/tomahawk"
-	xmlns:o="http://omnifaces.org/ui"
-	xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui" 
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<composite:interface>
-	</composite:interface>
+    <composite:interface>
+    </composite:interface>
 
-	<composite:implementation>
+    <composite:implementation>
 
-		<style>
-		  .progress {
-            height: 1.5rem;
-          }
-		</style>
+        <style>
+        .progress {
+        	height: 1.5rem;
+        }
+        </style>
 
-		<div class="row">
-			<div class="col-sm-12">
-                
-                <ui:fragment
-                    rendered="#{!LoginForm.hasRole('Plugin_administration_ruleset_compatibility')}">
-                    <h:outputText
-                        styleClass="alert alert-danger d-block"
-                        value="#{msgs.plugin_administration_missingPermission} Plugin_administration_ruleset_compatibility"/>
-                </ui:fragment>
-                    
-                <ui:fragment
-                    rendered="#{LoginForm.hasRole('Plugin_administration_ruleset_compatibility')}">
-                    
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <h:outputText
+                    rendered="#{!LoginForm.hasRole('Plugin_administration_ruleset_compatibility')}"
+                    styleClass="alert alert-danger d-block"
+                    value="#{msgs.plugin_administration_missingPermission} Plugin_administration_ruleset_compatibility" />
+
+                <ui:fragment rendered="#{LoginForm.hasRole('Plugin_administration_ruleset_compatibility')}">
+
                     <!-- FORM FOR FILTER -->
-                    <h:form id="filterForm" styleClass="mb-3">
+                    <h:form
+                        id="filterForm"
+                        styleClass="mb-3">
                         <intranda:box
                             boxType="action"
                             boxPadding="true"
                             icon="fa-plug"
                             title="#{msgs[AdministrationForm.administrationPlugin.title]}">
-                            
-    							<!-- Filter -->
-    							<intranda:formInputText id="filter" name="filtername"
-    								label="#{msgs.filter}"
-    								field="#{AdministrationForm.administrationPlugin.filter}"
-    								help="#{msgs.helpFilter}"
-    								required="false" />
-    
-    						    <!-- Execute the plugin -->
-                                <div class="form-actions">
-    							    <a
-                                        jsf:id="cancel"
-                                        class="btn btn-blank me-2"
-                                        jsf:immediate="true"
-                                        jsf:rendered="#{AdministrationForm.administrationPlugin.run}"
-                                        jsf:action="#{AdministrationForm.administrationPlugin.cancel}">
-                                        <h:outputText value="#{msgs.abbrechen}" />
-                                    </a>
-                                
-    								<button class="btn btn-primary" 
-    									jsf:id="filterButton"
-    									type="submit" 
-                                        jsf:action="#{AdministrationForm.administrationPlugin.execute}">
-    									<h:outputText value="#{msgs.executePlugin}" />
-    								</button>
-    							</div>
-                            </intranda:box>
-						</h:form>
+
+                            <!-- Filter -->
+                            <intranda:formInputText
+                                id="filter"
+                                name="filtername"
+                                label="#{msgs.filter}"
+                                field="#{AdministrationForm.administrationPlugin.filter}"
+                                help="#{msgs.helpFilter}"
+                                required="false" />
+
+                            <!-- Execute the plugin -->
+                            <div class="form-actions">
+                                <a
+                                    jsf:id="cancel"
+                                    class="btn btn-blank me-2"
+                                    jsf:immediate="true"
+                                    jsf:rendered="#{AdministrationForm.administrationPlugin.run}"
+                                    jsf:action="#{AdministrationForm.administrationPlugin.cancel}"> <h:outputText
+                                        value="#{msgs.abbrechen}" />
+                                </a>
+
+                                <button
+                                    class="btn btn-primary"
+                                    jsf:id="filterButton"
+                                    type="submit"
+                                    jsf:action="#{AdministrationForm.administrationPlugin.execute}">
+                                    <h:outputText value="#{msgs.executePlugin}" />
+                                </button>
+                            </div>
+                        </intranda:box>
+                    </h:form>
                     <!-- FORM FOR FILTER -->
-                    
-                    
+
+
                     <!-- RESULT AREA -->
-                    <h:panelGroup id="resultArea" rendered="#{AdministrationForm.administrationPlugin.resultTotal gt 0}">
+                    <h:panelGroup
+                        id="resultArea"
+                        rendered="#{AdministrationForm.administrationPlugin.resultTotal gt 0}">
                         <intranda:box
                             id="tableFormComplete"
                             boxType="primary"
@@ -87,7 +93,7 @@
                                     <div class="col-2">
                                         <!-- HITS -->
                                         <div class="gw-table__search__length">
-                                            
+
                                             <div
                                                 class="btn-group"
                                                 data-bs-toggle="tooltip"
@@ -106,7 +112,7 @@
                                                         <i class="fa fa-filter" />
                                                         <span class="caret"></span>
                                                     </button>
-    
+
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <button
@@ -135,7 +141,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                           
+
                                             <!-- NUMBER OF HITS -->
                                             <h:outputText
                                                 id="resultNumber1"
@@ -194,17 +200,6 @@
                                                 </button>
 
                                                 <ul class="dropdown-menu">
-                                                    <li>
-                                                        <button
-                                                            class="dropdown-item"
-                                                            jsf:action="#{NavigationForm.Reload}"
-                                                            jsf:id="limitResults2">
-                                                            <h:outputText value="#{msgs.goobiScript_setMaxEntries} 2" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
-                                                                value="2" />
-                                                        </button>
-                                                    </li>
                                                     <li>
                                                         <button
                                                             class="dropdown-item"
@@ -274,13 +269,13 @@
 
                             <!-- TABLE WRAPPER -->
                             <div class="gw-table gw-table-fixed">
-                
-                               <!-- FORM -->
+
+                                <!-- FORM -->
                                 <h:form
                                     id="myform"
                                     prependId="false"
                                     styleClass="table--scrollx">
-                
+
                                     <!-- TABLE -->
                                     <div class="gw-table gw-table-fixed">
                                         <div class="gw-table__wrapper">
@@ -288,31 +283,35 @@
                                                 role="grid"
                                                 id="resultTable"
                                                 class="table table-bordered table-fixed table-hover mt-3">
-                
+
                                                 <!-- COLUMNHEADER -->
                                                 <thead>
                                                     <tr role="row">
 
-                                                        <th role="columnheader"
+                                                        <th
+                                                            role="columnheader"
                                                             scope="col">
                                                             <h:outputText value="#{msgs.title}" />
                                                         </th>
-                                                        <th role="columnheader"
+                                                        <th
+                                                            role="columnheader"
                                                             scope="col">
                                                             <h:outputText value="#{msgs.status}" />
                                                         </th>
-                                                        <th role="columnheader"
+                                                        <th
+                                                            role="columnheader"
                                                             scope="col">
                                                             <h:outputText value="#{msgs.details}" />
                                                         </th>
-                                                        <th role="columnheader"
+                                                        <th
+                                                            role="columnheader"
                                                             scope="col">
                                                             <h:outputText value="#{msgs.auswahl}" />
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <!-- // COLUMNHEADER -->
-                                                
+
                                                 <!-- CONTENT ROWS -->
                                                 <ui:repeat
                                                     var="item"
@@ -323,7 +322,10 @@
                                                             <h:outputText value="#{item.title}" />
                                                         </td>
                                                         <td>
-                                                            <h:outputText value="#{msgs['goobiScript_status_'.concat(item.status)]}" title="#{item.message}" styleClass="badge #{item.status == 'OK' ? 'badge-intranda-green' : item.status == 'ERROR'?'badge-intranda-red':'badge-intranda-orange'}" />
+                                                            <h:outputText
+                                                                value="#{msgs['goobiScript_status_'.concat(item.status)]}"
+                                                                title="#{item.message}"
+                                                                styleClass="badge #{item.status == 'OK' ? 'badge-intranda-green' : item.status == 'ERROR'?'badge-intranda-red':'badge-intranda-orange'}" />
                                                         </td>
                                                         <td>
                                                             <h:outputText value="#{item.message}" />
@@ -381,31 +383,31 @@
                                                     </tr>
                                                 </ui:repeat>
                                                 <!-- // CONTENT ROWS -->
-                                                
+
                                             </table>
                                         </div>
                                     </div>
                                     <!-- // TABLE -->
-                                    
+
                                 </h:form>
                                 <!-- // FORM -->
-                                
+
                             </div>
                             <!-- // TABLE WRAPPER -->
-                            
+
                         </intranda:box>
                     </h:panelGroup>
                     <!-- // RESULT AREA -->
-                    
-                </ui:fragment>
-			</div>
-		</div>
-		
-		<!-- websocket communication -->
-		<o:socket channel="adminPluginPush" scope="session">
-            <f:ajax event="update" render="resultArea" />
-		</o:socket>
-		<!-- // websocket communication -->
 
-	</composite:implementation>
+                </ui:fragment>
+            </div>
+        </div>
+
+        <!-- websocket communication -->
+        <o:socket channel="adminPluginPush" scope="session">
+            <f:ajax event="update" ender="resultArea" />
+        </o:socket>
+        <!-- // websocket communication -->
+
+    </composite:implementation>
 </ui:composition>
