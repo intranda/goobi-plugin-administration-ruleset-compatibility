@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.intranda.goobi.plugins.administration</groupId>
   <artifactId>ruleset_compatibility</artifactId>
-  <version>23.10</version>
+  <version>23.10.1</version>
   <packaging>pom</packaging>
   <properties>
-    <goobi.version>23.10</goobi.version>
+    <goobi.version>23.10.1</goobi.version>
   </properties>
   <distributionManagement>
     <repository>
