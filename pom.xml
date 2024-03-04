@@ -4,6 +4,7 @@
     <groupId>io.goobi.workflow</groupId>
     <artifactId>workflow-base</artifactId>
     <version>24.03-SNAPSHOT</version>
+    <relativePath />
   </parent>
   <groupId>io.goobi.workflow.plugin</groupId>
   <artifactId>plugin-administration-ruleset_compatibility</artifactId>
