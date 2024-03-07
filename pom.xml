@@ -7,7 +7,7 @@
     <relativePath />
   </parent>
   <groupId>io.goobi.workflow.plugin</groupId>
-  <artifactId>plugin-administration-ruleset_compatibility</artifactId>
+  <artifactId>plugin-administration-ruleset-compatibility</artifactId>
   <packaging>pom</packaging>
   <modules>
     <module>module-base</module>

@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.goobi.workflow.plugin</groupId>
-    <artifactId>plugin-administration-ruleset_compatibility</artifactId>
+    <artifactId>plugin-administration-ruleset-compatibility</artifactId>
     <version>24.03-SNAPSHOT</version>
   </parent>
-  <artifactId>plugin-administration-ruleset_compatibility-gui</artifactId>
+  <artifactId>plugin-administration-ruleset-compatibility-gui</artifactId>
   <packaging>jar</packaging>
   <build>
     <resources>
