@@ -53,6 +53,7 @@ pipeline {
       steps {
         script {
           if (fileExists('module-lib/pom.xml')) {
+            sh 'mvn -N deploy'
             sh 'mvn -f module-lib/pom.xml deploy'
           }
         }
@@ -77,7 +78,7 @@ pipeline {
       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
     }
     success {
-      archiveArtifacts artifacts: '**/target/*.jar, */plugin_*.xml, plugin_*.xml', fingerprint: true, onlyIfSuccessful: true
+      archiveArtifacts artifacts: '**/target/*.jar, install/*', fingerprint: true, onlyIfSuccessful: true
     }
     changed {
       emailext(
