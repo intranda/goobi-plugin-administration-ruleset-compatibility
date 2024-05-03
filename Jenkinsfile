@@ -22,18 +22,48 @@ pipeline {
       }
     }
 
-    stage('build') {
+    stage('build-snapshot') {
+      when {
+        not {
+          anyOf {
+            branch 'master'
+            branch 'release_*'
+            allOf {
+              branch 'PR-*'
+              expression { env.CHANGE_BRANCH.startsWith("release_") }
+            }
+          }
+        }
+      }
       steps {
-        sh 'mvn clean verify -U'
-        recordIssues enabledForFailure: true, aggregatingResults: true, tools: [java(), javaDoc()]
+        sh 'mvn clean verify -U -P snapshot-build'
       }
     }
-
+    stage('build-release') {
+      when {
+        anyOf {
+          branch 'master'
+          branch 'release_*'
+          allOf {
+            branch 'PR-*'
+            expression { env.CHANGE_BRANCH.startsWith("release_") }
+          }
+        }
+      }
+      steps {
+        sh 'mvn clean verify -U -P release-build'
+      }
+    }
     stage('sonarcloud') {
       when {
         anyOf {
           branch 'master'
+          branch 'release_*'
           branch 'sonar_*'
+          allOf {
+            branch 'PR-*'
+            expression { env.CHANGE_BRANCH.startsWith("release_") }
+          }
         }
       }
       steps {
@@ -43,33 +73,16 @@ pipeline {
       }
     }
 
-    stage('deploy-snapshot-libs') {
+    stage('deploy-libs') {
       when {
         anyOf {
+          branch 'master'
           branch 'develop'
         }
       }
       steps {
         script {
           if (fileExists('module-lib/pom.xml')) {
-            sh 'cat pom.xml | grep "SNAPSHOT"'
-            sh 'mvn -N deploy'
-            sh 'mvn -f module-lib/pom.xml deploy'
-          }
-        }
-      }
-    }
-
-    stage('deploy-release-libs') {
-      when {
-        anyOf {
-          branch 'master'
-        }
-      }
-      steps {
-        script {
-          if (fileExists('module-lib/pom.xml')) {
-            sh 'cat pom.xml | grep "SNAPSHOT" || true'
             sh 'mvn -N deploy'
             sh 'mvn -f module-lib/pom.xml deploy'
           }
