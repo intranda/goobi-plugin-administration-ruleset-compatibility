@@ -41,5 +41,5 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            **/target/*.war
+            **/target/*.jar
             install/*
