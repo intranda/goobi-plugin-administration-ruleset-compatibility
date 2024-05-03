@@ -21,7 +21,6 @@ pipeline {
         sh 'git reset --hard HEAD && git clean -fdx'
       }
     }
-
     stage('build-snapshot') {
       when {
         not {
@@ -72,7 +71,6 @@ pipeline {
         }
       }
     }
-
     stage('deploy-libs') {
       when {
         anyOf {
@@ -86,6 +84,27 @@ pipeline {
             sh 'mvn -N deploy'
             sh 'mvn -f module-lib/pom.xml deploy'
           }
+        }
+      }
+    }
+    stage('tag release') {
+      when { branch 'master' }
+      steps {
+        withCredentials([gitUsernamePassword(credentialsId: '93f7e7d3-8f74-4744-a785-518fc4d55314',
+                 gitToolName: 'git-tool')]) {
+          sh '''#!/bin/bash -xe
+              projectversion=$(mvn org.apache.maven.plugins:maven-help-plugin:3.4.0:evaluate -Dexpression=project.version -q -DforceStdout)
+              if [ $? != 0 ]
+              then 
+                  exit 1
+              elif [[ "${projectversion}" =~ "SNAPSHOT" ]]
+              then
+                  echo "This is a SNAPSHOT version"
+                  exit 1
+              fi
+              echo "${projectversion}"
+              git tag -a "v${projectversion}" -m "releasing v${projectversion}" && git push origin v"${projectversion}"
+          '''
         }
       }
     }
