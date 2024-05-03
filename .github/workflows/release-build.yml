@@ -1,9 +1,4 @@
-name: Publish Development Build
-
-permissions:
-  contents: write
-
-name: Publish Development Build
+name: Publish Release Build
 
 permissions:
   contents: write
