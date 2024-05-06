@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.goobi.workflow</groupId>
+    <artifactId>workflow-base</artifactId>
+    <version>24.04.2</version>
+    <relativePath />
+  </parent>
+  <groupId>io.goobi.workflow.plugin</groupId>
+  <artifactId>plugin-administration-ruleset-compatibility</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>module-base</module>
+    <module>module-gui</module>
+  </modules>
+  <repositories>
+    <repository>
+      <id>intranda-public</id>
+      <url>https://nexus.intranda.com/repository/maven-public</url>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>io.goobi.workflow</groupId>
+      <artifactId>workflow-core</artifactId>
+      <version>${project.version}</version>
+      <classifier>classes</classifier>
+    </dependency>
+  </dependencies>
+</project>
