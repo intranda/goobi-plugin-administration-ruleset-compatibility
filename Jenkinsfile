@@ -55,13 +55,20 @@ pipeline {
     }
     stage('sonarcloud') {
       when {
-        anyOf {
-          branch 'master'
-          branch 'release_*'
-          branch 'sonar_*'
-          allOf {
-            branch 'PR-*'
-            expression { env.CHANGE_BRANCH.startsWith("release_") }
+        allOf {
+          anyOf {
+            branch 'master'
+            branch 'release_*'
+            branch 'sonar_*'
+            allOf {
+              branch 'PR-*'
+              expression { env.CHANGE_BRANCH.startsWith("release_") }
+            }
+          }
+          not {
+            expression {
+              return fileExists('DO_NOT_PUBLISH')
+            }
           }
         }
       }
@@ -124,7 +131,6 @@ pipeline {
         enabledForFailure: true, aggregatingResults: false,
         tools: [checkStyle(pattern: 'target/checkstyle-result.xml', reportEncoding: 'UTF-8')]
       )
-      dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
     }
     success {
       archiveArtifacts artifacts: '**/target/*.jar, install/*', fingerprint: true, onlyIfSuccessful: true
