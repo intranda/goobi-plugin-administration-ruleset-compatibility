@@ -28,6 +28,7 @@ pipeline {
             branch 'master'
             branch 'release_*'
             branch 'hotfix_release_*'
+            branch 'sonar_*'
             allOf {
               branch 'PR-*'
               expression { env.CHANGE_BRANCH.startsWith("release_") }
@@ -53,6 +54,14 @@ pipeline {
       }
       steps {
         sh 'mvn clean verify -U -P release-build'
+      }
+    }
+    stage('build-sonar') {
+      when {
+        branch 'sonar_*'
+      }
+      steps {
+        sh 'mvn clean verify -U -P sonar-build'
       }
     }
     stage('sonarcloud') {
