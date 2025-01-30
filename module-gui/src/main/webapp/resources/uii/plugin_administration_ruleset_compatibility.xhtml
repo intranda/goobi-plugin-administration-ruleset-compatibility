@@ -4,7 +4,6 @@
     xmlns:composite="http://xmlns.jcp.org/jsf/composite"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:x="http://myfaces.apache.org/tomahawk"
     xmlns:o="http://omnifaces.org/ui"
     xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
@@ -55,14 +54,14 @@
 
                             <!-- Execute the plugin -->
                             <div class="form-actions">
-                                <a
+                                <button
                                     jsf:id="cancel"
                                     class="btn btn-blank me-2"
                                     jsf:immediate="true"
                                     jsf:rendered="#{AdministrationForm.administrationPlugin.run}"
                                     jsf:action="#{AdministrationForm.administrationPlugin.cancel}"> <h:outputText
                                         value="#{msgs.abbrechen}" />
-                                </a>
+                                </button>
 
                                 <button
                                     class="btn btn-primary"
@@ -206,8 +205,8 @@
                                                             jsf:action="#{NavigationForm.Reload}"
                                                             jsf:id="limitResults10">
                                                             <h:outputText value="#{msgs.goobiScript_setMaxEntries} 10" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
+                                                            <f:setPropertyActionListener
+                                                                target="#{AdministrationForm.administrationPlugin.limit}"
                                                                 value="10" />
                                                         </button>
                                                     </li>
@@ -217,8 +216,8 @@
                                                             jsf:action="#{NavigationForm.Reload}"
                                                             jsf:id="limitResults100">
                                                             <h:outputText value="#{msgs.goobiScript_setMaxEntries} 100" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
+                                                            <f:setPropertyActionListener
+                                                                target="#{AdministrationForm.administrationPlugin.limit}"
                                                                 value="100" />
                                                         </button>
                                                     </li>
@@ -229,8 +228,8 @@
                                                             jsf:id="limitResults1000">
                                                             <h:outputText
                                                                 value="#{msgs.goobiScript_setMaxEntries} 1.000" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
+                                                            <f:setPropertyActionListener
+                                                                target="#{AdministrationForm.administrationPlugin.limit}"
                                                                 value="1000" />
                                                         </button>
                                                     </li>
@@ -241,8 +240,8 @@
                                                             jsf:id="limitResults10000">
                                                             <h:outputText
                                                                 value="#{msgs.goobiScript_setMaxEntries} 10.000" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
+                                                            <f:setPropertyActionListener
+                                                                target="#{AdministrationForm.administrationPlugin.limit}"
                                                                 value="10000" />
                                                         </button>
                                                     </li>
@@ -253,8 +252,8 @@
                                                             jsf:id="limitResults1000000">
                                                             <h:outputText
                                                                 value="#{msgs.goobiScript_setMaxEntries} 1.000.000" />
-                                                            <x:updateActionListener
-                                                                property="#{AdministrationForm.administrationPlugin.limit}"
+                                                            <f:setPropertyActionListener
+                                                                target="#{AdministrationForm.administrationPlugin.limit}"
                                                                 value="1000000" />
                                                         </button>
                                                     </li>
@@ -405,7 +404,7 @@
 
         <!-- websocket communication -->
         <o:socket channel="adminPluginPush" scope="session">
-            <f:ajax event="update" ender="resultArea" />
+            <f:ajax event="update" render="resultArea" />
         </o:socket>
         <!-- // websocket communication -->
 

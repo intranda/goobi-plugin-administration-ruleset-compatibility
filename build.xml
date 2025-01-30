@@ -8,8 +8,8 @@
 		<exec executable="mvn">
 			<arg value="package"/>
 		</exec>
-		<copy file="module-main/target/plugin_intranda_administration_${name}.jar" todir="/opt/digiverso/goobi/plugins/administration/" overwrite="true"/>
-		<copy file="module-gui/target/plugin_intranda_administration_${name}-GUI.jar" todir="/opt/digiverso/goobi/plugins/GUI/" overwrite="true"/>
+        <copy file="module-base/target/plugin-administration-ruleset-compatibility-base.jar" todir="/opt/digiverso/goobi/plugins/administration/"/>
+        <copy file="module-gui/target/plugin-administration-ruleset-compatibility-gui.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
 	</target>
 
 </project>
