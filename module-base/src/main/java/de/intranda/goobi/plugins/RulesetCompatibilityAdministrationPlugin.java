@@ -24,10 +24,13 @@ import ugh.dl.Fileformat;
 @Log4j2
 public class RulesetCompatibilityAdministrationPlugin implements IAdministrationPlugin, IPushPlugin {
 
+    private static final long serialVersionUID = -2474986577741715808L;
+
     @Getter
     private String title = "intranda_administration_ruleset_compatibility";
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int limit = 10;
 
     @Getter
@@ -64,7 +67,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 
         // filter the list of all processes that should be affected
         String query = FilterHelper.criteriaBuilder(filter, false, null, null, null, true, false);
-        List<Integer> tempProcesses = ProcessManager.getIdsForFilter( query);
+        List<Integer> tempProcesses = ProcessManager.getIdsForFilter(query);
 
         resultTotal = tempProcesses.size();
         resultProcessed = 0;
@@ -92,7 +95,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
                         r.setMessage(e.getMessage());
                     }
                     results.add(0, r);
-                    if (results.size()>limit) {
+                    if (results.size() > limit) {
                         resultsLimited = new ArrayList<>(results.subList(0, limit));
                     } else {
                         resultsLimited = new ArrayList<>(results);
@@ -122,15 +125,15 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
      * @return
      */
     public String showInProcessList(String limit) {
-        String search = "\"id:";
+        StringBuilder search = new StringBuilder("\"id:");
         for (RulesetCompatibilityResult r : results) {
             if (limit.isEmpty() || limit.equals(r.getStatus())) {
-                search += r.getId() + " ";
+                search.append(r.getId()).append(" ");
             }
         }
-        search += "\"";
+        search.append("\"");
         ProcessBean processBean = Helper.getBeanByClass(ProcessBean.class);
-        processBean.setFilter( search);
+        processBean.setFilter(search.toString());
         processBean.setModusAnzeige("aktuell");
         return processBean.FilterAlleStart();
     }
@@ -152,6 +155,7 @@ public class RulesetCompatibilityAdministrationPlugin implements IAdministration
 
     /**
      * get the progress in percent to render a progress bar
+     *
      * @return progress as percentage
      */
     public int getProgress() {
