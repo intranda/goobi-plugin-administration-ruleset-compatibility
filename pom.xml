@@ -1,10 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.goobi.workflow</groupId>
     <artifactId>workflow-base</artifactId>
-    <version>25.04</version>
-    <relativePath />
+    <version>25.05</version>
+    <relativePath/>
   </parent>
   <groupId>io.goobi.workflow.plugin</groupId>
   <artifactId>plugin-administration-ruleset-compatibility</artifactId>
@@ -23,7 +24,7 @@
     <dependency>
       <groupId>io.goobi.workflow</groupId>
       <artifactId>workflow-core</artifactId>
-      <version>${project.version}</version>
+      <version>25.05</version>
       <classifier>classes</classifier>
     </dependency>
   </dependencies>
