@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.goobi.workflow.plugin</groupId>
     <artifactId>plugin-administration-ruleset-compatibility</artifactId>
-    <version>25.06-SNAPSHOT</version>
+    <version>25.06</version>
   </parent>
   <artifactId>plugin-administration-ruleset-compatibility-gui</artifactId>
   <packaging>jar</packaging>
