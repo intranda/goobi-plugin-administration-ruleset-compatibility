@@ -5,7 +5,7 @@ description: Goobi Administration Plugin für das Prüfen der Regelsatzkompatibi
 published: true
 keywords:
     - Plugin
-    - Administration
+    - Administration Plugin
     - Regelsatz
 ---
 ## Einführung

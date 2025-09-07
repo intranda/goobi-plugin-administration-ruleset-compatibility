@@ -5,7 +5,7 @@ description: Goobi Administration Plugin for checking ruleset compatibility for 
 published: true
 keywords:
     - Plugin
-    - Administration
+    - Administration Plugin
     - Ruleset
 ---
 ## Introduction
