@@ -4,6 +4,7 @@ identifier: intranda_administration_ruleset_compatibility
 description: Goobi Administration Plugin für das Prüfen der Regelsatzkompatibilität für mehrere Vorgänge
 published: true
 keywords:
+    - Goobi workflow
     - Plugin
     - Administration Plugin
     - Regelsatz
