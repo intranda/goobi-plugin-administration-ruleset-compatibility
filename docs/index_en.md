@@ -3,6 +3,11 @@ title: Ruleset Compatibility
 identifier: intranda_administration_ruleset_compatibility
 description: Goobi Administration Plugin for checking ruleset compatibility for multiple processes
 published: true
+keywords:
+    - Goobi workflow
+    - Plugin
+    - Administration Plugin
+    - Ruleset
 ---
 ## Introduction
 This documentation describes the installation, configuration and use of the Administration Plugin for automated checking of a large number of processes within Goobi workflow with the assigned rule set. Any incompatibilities with the respective rule sets are identified and a corresponding message about the specific incompatibility is displayed.
