@@ -7,7 +7,6 @@ keywords:
     - Goobi workflow
     - Plugin
     - Administration Plugin
-    - Regelsatz
 ---
 ## Einführung
 Die vorliegende Dokumentation beschreibt die Installation, die Konfiguration und den Einsatz des Administration Plugins für das automatisierte Prüfung einer großen Anzahl an Vorgängen innerhalb von Goobi workflow mit dem zugewiesenen Regelsatz. Eventuelle Inkompatibilitäten mit den jeweiligen Regelsätzen werden ermittelt und eine entsprechende Meldung über die konkrete Inkompatibilität angezeigt.
