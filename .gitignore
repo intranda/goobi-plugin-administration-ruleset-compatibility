@@ -2,6 +2,8 @@
 # Junk files
 *~
 .DS_Store
+.flattened-pom.xml
+*/.flattened-pom.xml
 
 # Build
 target/
