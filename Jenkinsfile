@@ -155,13 +155,15 @@ pipeline {
             if [ -f "DO_NOT_PUBLISH" ]; then
               REPO_URL="$COLLECTION_REPO_URL"
               SUBMODULE_PATH="private-plugins/$PLUGIN_NAME"
+              BRANCH="master"
             else
               REPO_URL="$CORE_REPO_URL"
               SUBMODULE_PATH="plugins/$PLUGIN_NAME"
+              BRANCH="develop"
             fi
 
             WORK_DIR=$(mktemp -d)
-            git clone --depth 1 --branch develop "$REPO_URL" "$WORK_DIR"
+            git clone --depth 1 --branch $BRANCH "$REPO_URL" "$WORK_DIR"
             cd "$WORK_DIR"
             git submodule update --init --remote -- "$SUBMODULE_PATH"
             git add "$SUBMODULE_PATH"
@@ -169,7 +171,7 @@ pipeline {
               echo "Submodule already up to date."
             else
               git commit -m "Update ${PLUGIN_NAME} to latest master"
-              git push origin develop
+              git push origin $BRANCH
             fi
             rm -rf "$WORK_DIR"
           '''
