@@ -107,6 +107,7 @@ pipeline {
 
     // ─────────────────────────────────────────────────────────────────────────
     // 3. DEPLOY  (develop only: root pom + lib module if present)
+    //    Private plugins (DO_NOT_PUBLISH) deploy to internal Nexus
     // ─────────────────────────────────────────────────────────────────────────
     stage('deploy') {
       when {
@@ -122,36 +123,42 @@ pipeline {
       steps {
         script {
           if (fileExists('module-lib/pom.xml')) {
-            sh "mvn -N deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U --no-transfer-progress"
-            sh "mvn -f module-lib/pom.xml deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U --no-transfer-progress"
+            def altRepo = fileExists('DO_NOT_PUBLISH')
+              ? "-DaltDeploymentRepository=\$NEXUS_INTERNAL_REPO -DaltSnapshotDeploymentRepository=\$NEXUS_INTERNAL_REPO"
+              : ''
+            sh "mvn -N deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U ${altRepo} --no-transfer-progress"
+            sh "mvn -f module-lib/pom.xml deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U ${altRepo} --no-transfer-progress"
           }
         }
       }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 4. UPDATE CORE  (master only: advance submodule pointer in core/develop)
+    // 4. UPDATE PARENT  (master only: advance submodule pointer in core or collection)
     // ─────────────────────────────────────────────────────────────────────────
-    stage('update-core') {
+    stage('update-parent') {
       when {
         branch 'master'
       }
-      agent {
-        docker {
-          image mavenDockerImage
-          args mavenDockerArgs
-          reuseNode true
-        }
-      }
+      agent any
       steps {
         withCredentials([gitUsernamePassword(credentialsId: '93f7e7d3-8f74-4744-a785-518fc4d55314', gitToolName: 'git-tool')]) {
           sh '''#!/bin/bash -xe
             PLUGIN_NAME=$(basename $(git remote get-url origin) .git)
+
+            if [ -f "DO_NOT_PUBLISH" ]; then
+              REPO_URL="$COLLECTION_REPO_URL"
+              SUBMODULE_PATH="private-plugins/$PLUGIN_NAME"
+            else
+              REPO_URL="$CORE_REPO_URL"
+              SUBMODULE_PATH="plugins/$PLUGIN_NAME"
+            fi
+
             WORK_DIR=$(mktemp -d)
-            git clone --depth 1 --branch develop "$CORE_REPO_URL" "$WORK_DIR"
+            git clone --depth 1 --branch develop "$REPO_URL" "$WORK_DIR"
             cd "$WORK_DIR"
-            git submodule update --init --remote -- "plugins/$PLUGIN_NAME"
-            git add "plugins/$PLUGIN_NAME"
+            git submodule update --init --remote -- "$SUBMODULE_PATH"
+            git add "$SUBMODULE_PATH"
             if git diff --cached --quiet; then
               echo "Submodule already up to date."
             else
