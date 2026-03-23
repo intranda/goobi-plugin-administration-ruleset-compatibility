@@ -65,11 +65,11 @@ pipeline {
             }
             junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
             step([
-              $class           : 'JacocoPublisher',
-              execPattern      : '**/target/jacoco.exec',
-              classPattern     : '**/target/classes/',
-              sourcePattern    : '**/src/main/java',
-              exclusionPattern : '**/*Test.class'
+                    $class           : 'JacocoPublisher',
+                    execPattern      : '**/target/jacoco.exec',
+                    classPattern     : '**/target/classes/',
+                    sourcePattern    : '**/src/main/java',
+                    exclusionPattern : '**/*Test.class'
             ])
           }
         }
@@ -95,9 +95,9 @@ pipeline {
               }
             }
             recordIssues(
-              id: 'checkstyle-plugin',
-              tools: [checkStyle(pattern: '**/target/checkstyle-result.xml')],
-              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+                    id: 'checkstyle-plugin',
+                    tools: [checkStyle(pattern: '**/target/checkstyle-result.xml')],
+                    qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
             )
           }
         }
@@ -124,8 +124,8 @@ pipeline {
         script {
           if (fileExists('module-lib/pom.xml')) {
             def altRepo = fileExists('DO_NOT_PUBLISH')
-              ? "-DaltDeploymentRepository=\$NEXUS_INTERNAL_REPO -DaltSnapshotDeploymentRepository=\$NEXUS_INTERNAL_REPO"
-              : ''
+                    ? "-DaltDeploymentRepository=\$NEXUS_INTERNAL_REPO -DaltSnapshotDeploymentRepository=\$NEXUS_INTERNAL_REPO"
+                    : ''
             sh "mvn -N deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U ${altRepo} --no-transfer-progress"
             sh "mvn -f module-lib/pom.xml deploy -Dmaven.main.skip=true -Dmaven.test.skip=true -Drevision=\$BUILD_VERSION -U ${altRepo} --no-transfer-progress"
           }
@@ -140,7 +140,13 @@ pipeline {
       when {
         branch 'master'
       }
-      agent any
+      agent {
+        docker {
+          image mavenDockerImage
+          args mavenDockerArgs
+          reuseNode true
+        }
+      }
       steps {
         withCredentials([gitUsernamePassword(credentialsId: '93f7e7d3-8f74-4744-a785-518fc4d55314', gitToolName: 'git-tool')]) {
           sh '''#!/bin/bash -xe
@@ -176,10 +182,10 @@ pipeline {
   post {
     changed {
       emailext(
-        subject: '${DEFAULT_SUBJECT}',
-        body: '${DEFAULT_CONTENT}',
-        recipientProviders: [requestor(), culprits()],
-        attachLog: true
+              subject: '${DEFAULT_SUBJECT}',
+              body: '${DEFAULT_CONTENT}',
+              recipientProviders: [requestor(), culprits()],
+              attachLog: true
       )
     }
   }
