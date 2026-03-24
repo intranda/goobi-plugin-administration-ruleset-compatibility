@@ -166,12 +166,12 @@ pipeline {
             git clone --depth 1 --branch $BRANCH "$REPO_URL" "$WORK_DIR"
             cd "$WORK_DIR"
             git submodule update --init --remote -- "$SUBMODULE_PATH"
-            git add "$SUBMODULE_PATH"
-            if git diff --cached --quiet; then
-              echo "Submodule already up to date."
-            else
+            if git status --porcelain -- "$SUBMODULE_PATH" | grep -q .; then
+              git add "$SUBMODULE_PATH"
               git commit -m "Update ${PLUGIN_NAME} to latest master"
               git push origin $BRANCH
+            else
+              echo "Submodule already up to date."
             fi
             rm -rf "$WORK_DIR"
           '''
