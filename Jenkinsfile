@@ -101,15 +101,15 @@ pipeline {
               def pluginName = env.JOB_NAME.tokenize('/')[1].replace('-', '_').toUpperCase()
               def thresholdKey = "${pluginName}_THRESHOLD"
               def threshold = env[thresholdKey] ?: env.PLUGIN_CHECKSTYLE_THRESHOLD ?: '100'
+              recordIssues(
+                      id: 'checkstyle-plugin',
+                      tools: [checkStyle(pattern: '**/target/checkstyle-result.xml')],
+                      qualityGates: [
+                              [threshold: 1, type: 'TOTAL_HIGH', unstable: false],
+                              [threshold: threshold as int, type: 'TOTAL_NORMAL', unstable: true]
+                      ]
+              )
             }
-            recordIssues(
-                    id: 'checkstyle-plugin',
-                    tools: [checkStyle(pattern: '**/target/checkstyle-result.xml')],
-                    qualityGates: [
-                            [threshold: 1, type: 'TOTAL_HIGH', unstable: false],
-                            [threshold: threshold as int, type: 'TOTAL_NORMAL', unstable: true]
-                    ]
-            )
           }
         }
 
