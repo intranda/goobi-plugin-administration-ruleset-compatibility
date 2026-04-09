@@ -97,11 +97,18 @@ pipeline {
                   sh cmd
                 }
               }
+              // Set plugin specific checkstyle thresholds like PLUGIN_NAME_THRESHOLD = VALUE in Jenkins settings
+              def pluginName = env.JOB_NAME.tokenize('/')[1].replace('-', '_').toUpperCase()
+              def thresholdKey = "${pluginName}_THRESHOLD"
+              def threshold = env[thresholdKey] ?: env.PLUGIN_CHECKSTYLE_THRESHOLD ?: '100'
             }
             recordIssues(
                     id: 'checkstyle-plugin',
                     tools: [checkStyle(pattern: '**/target/checkstyle-result.xml')],
-                    qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+                    qualityGates: [
+                            [threshold: 1, type: 'TOTAL_HIGH', unstable: false],
+                            [threshold: threshold as int, type: 'TOTAL_NORMAL', unstable: true]
+                    ]
             )
           }
         }
